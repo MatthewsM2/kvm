@@ -1,0 +1,9 @@
+egrep -c '(vmx|svm)' /proc/cpuinfo
+sudo systemctl enable --now libvirtd
+sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+sudo systemctl start libvirtd
+sudo systemctl status libvirtd
+sudo adduser <username> libvirt
+sudo adduser <username> kvm 
+sudo phpenmod mbstring
+
