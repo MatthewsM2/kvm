@@ -1,0 +1,58 @@
+sudo apt install docker.io
+sudo apt install docker-composer
+
+
+docker stats
+docker top <container_id>
+docker inspect <container_id>
+
+//start docker-compose.yml
+
+version: '3.8'
+
+services:
+  web:
+    image: php:7.4-apache
+    container_name: lamp_web
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: lamp_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: lamp_phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
+
+//End
+
+mkdir -p my-lamp-project/www
+cd my-lamp-project
+
+docker-compose up -d
+docker exec -it lamp_db mysql -u root -p
+sudo usermod -aG docker $USER
+newgrp docker
+
