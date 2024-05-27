@@ -20,6 +20,7 @@ services:
       - ./www:/var/www/html
     depends_on:
       - db
+    command: /bin/bash -c "docker-php-ext-install mysqli pdo pdo_mysql && apachectl -D FOREGROUND"
 
   db:
     image: mysql:5.7
